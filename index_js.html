@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mortgage Calculator</title>
+    <link rel="stylesheet" href="static/styles.css">
+    <script>
+        function calculateMortgage() {
+            const purchasePrice = parseFloat(document.getElementById("purchase_price").value);
+            const downPayment = parseFloat(document.getElementById("down_payment").value);
+            const interestRate = parseFloat(document.getElementById("interest_rate").value) / 100;
+            const termYears = parseFloat(document.getElementById("term_years").value);
+            const propertyTaxPercentage = parseFloat(document.getElementById("property_tax_percentage").value) / 100;
+            const homeInsurance = parseFloat(document.getElementById("home_insurance").value);
+
+            const loanAmount = purchasePrice - downPayment;
+            const monthlyInterestRate = interestRate / 12;
+            const numberOfPayments = termYears * 12;
+            const propertyTax = purchasePrice * propertyTaxPercentage / 12;
+            const insurance = homeInsurance;
+
+            const monthlyPayment = loanAmount * (monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfPayments)) / (Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1) + propertyTax + insurance;
+
+            document.getElementById("result").innerText = "Monthly Payment: $" + monthlyPayment.toFixed(3);
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Mortgage Calculator</h1>
+        <form onsubmit="event.preventDefault(); calculateMortgage();">
+            <label for="purchase_price">Home Purchase Price:</label>
+            <input type="number" step="any" id="purchase_price" required>
+
+            <label for="down_payment">Down Payment:</label>
+            <input type="number" step="any" id="down_payment" required>
+
+            <label for="interest_rate">Interest Rate:</label>
+            <input type="number" step="any" id="interest_rate" required>
+
+            <label for="term_years">Term (Years):</label>
+            <input type="number" step="any" id="term_years" required>
+
+            <label for="property_tax_percentage">Property Tax (%):</label>
+            <input type="number" step="any" id="property_tax_percentage" required>
+
+            <label for="home_insurance">Homeowners Insurance (Monthly):</label>
+            <input type="number" step="any" id="home_insurance" required>
+
+            <button type="submit">Calculate</button>
+        </form>
+        <div class="result">
+            <h2 id="result"></h2>
+        </div>
+    </div>
+</body>
+</html>
